@@ -1,0 +1,19 @@
+<mat-card class="card-panel">
+    <mat-card-header class="card-header">
+        <mat-card-title>{{cardTitle}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <input class="list-search" type="search"  [placeholder]="searchLabel" [(ngModel)]="searchTxt">
+    </mat-card-content>
+    <mat-card-content [style.overflow]="'hidden'" class="list-content">
+        <ng-container *appSkeletonReactangle="loadingDataList; repeat: 10;className: 'mb-2';height: '40px'; width: '30'">
+            <!-- Generic list having serach filter -->
+            <!-- Single search filter used for every data type -->
+            <generic-list [items]="dataList | filterPipe: searchTxt" (selectedItem)="currentSelectedItem($event)"></generic-list>
+        </ng-container>
+    </mat-card-content>
+    <mat-card-actions>
+        <!-- continue btn -->
+        <button mat-raised-button color="primary" class="card-bootom-btn" (click)="navToSelectedItem()">Continue</button>
+    </mat-card-actions>
+</mat-card>

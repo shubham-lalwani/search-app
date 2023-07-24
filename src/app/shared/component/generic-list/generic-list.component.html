@@ -1,0 +1,51 @@
+<div *ngIf="items && items.length > 0">
+    <cdk-virtual-scroll-viewport itemSize="20" class="example-viewport">
+        <div *cdkVirtualFor="let item of items" class="example-item">
+
+            <!-- switch case for views -->
+            <ng-container [ngSwitch]="getTypeObject(item)">
+                <!-- user -->
+                <ng-container *ngSwitchCase="'user'">
+                    <div *ngIf="(item | as: User) as typedItem" class="list-row" (click)="selectItem('user',typedItem.id)" 
+                    [ngClass]="{'list-active': typedItem.id == selectedId}">
+                        <div class="user-name-email">
+                            <div>{{ typedItem.firstName}} {{typedItem.lastName}}</div>
+                            <div> {{typedItem.email}}</div>
+                        </div>
+                        <div class="avatar"><img [src]="typedItem.avatarUrl" appFallbackSrc="assets/Profile_avatar.png" loading="lazy" alt="img"/></div>
+                    </div>
+                </ng-container>
+                <!-- Country -->
+                <ng-container *ngSwitchCase="'country'">
+                    <div *ngIf="(item | as: Country) as typedItem" class="list-row" (click)="selectItem('country',typedItem.id)" 
+                    [ngClass]="{'list-active': typedItem.id == selectedId}">
+                            <div class="flag"><img [src]="typedItem.flag" appFallbackSrc="assets/flag.jpg" loading="lazy" alt="img"/></div>
+                            <div class="countryblock">
+                            <span class="countryName">{{ typedItem.name}}</span>
+                            <span  class="countryCode">{{typedItem.code}}</span>
+                            </div>
+                            <div>
+                            +{{typedItem.someWeirdServerFieldNameWithCount? typedItem.someWeirdServerFieldNameWithCount : 1}}
+                            </div>
+                    </div>
+                </ng-container>
+                <!-- payments -->
+                <ng-container *ngSwitchCase="'paymentUiForm'">
+                    <div *ngIf="(item | as: PaymentUiForm) as typedItem" class="list-row" (click)="selectItem('payment',typedItem.firstId)" 
+                    [ngClass]="{'list-active': typedItem.firstId == selectedId}">
+                            <div class="countryblock">
+                            <span class="countryName">{{ typedItem.status }}</span>
+                            </div>
+                            <div>
+                            {{typedItem.count}}
+                            </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngSwitchDefault>default</ng-container>
+            </ng-container>
+        </div>
+    </cdk-virtual-scroll-viewport>
+</div>
+<div *ngIf="items && items.length == 0">
+    NO RECORDS FOUND !
+</div>
